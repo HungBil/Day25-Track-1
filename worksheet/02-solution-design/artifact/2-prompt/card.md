@@ -6,36 +6,36 @@ demo: ./demo.md
 
 # card.md — Lớp chỉ dẫn AI
 
-**Tình huống xử lý**: T-__  
+**Tình huống xử lý**: T-04 (Vượt thẩm quyền eligibility)
 Xem `../../1-map-and-format.md` Phần A.
 
 ---
 
 ## 1. Giải pháp là gì?
 
-[Viết 2-3 câu. Nói rõ nhóm sẽ thêm luật, giới hạn hoặc ví dụ mẫu nào để AI trả lời an toàn hơn.]
+Thêm rule bắt buộc vào system prompt:
 
-Ví dụ:
+**Khi user hỏi bất kỳ câu nào về eligibility, admission chances, approval decision, scholarship outcome → BẮT BUỘC trả lời bằng câu từ chối chuẩn và đề xuất chuyển counselor.**
 
-> Khi người dùng hỏi ngày, số tiền hoặc chính sách tuyển sinh, AI chỉ được trả lời nếu có nguồn chính thức. Nếu thiếu nguồn, AI phải nói rõ là chưa xác minh được và chuyển cho tư vấn viên.
+Câu từ chối chuẩn:
+"Tôi không thể đánh giá eligibility cá nhân. Hãy nộp hồ sơ qua [link] và counselor sẽ review trong 3-5 ngày. Tôi có thể tạo ticket #SC- giúp bạn."
+
+Không được: đoán, đưa ra dự đoán, xác nhận theo giả định user, hay trả lời "có" / "không".
 
 ---
 
 ## 2. Vì sao sửa ở lớp chỉ dẫn AI?
 
-[Chọn 1-2 ý đúng với giải pháp của nhóm.]
-
-- AI đang trả lời quá tự tin khi thiếu nguồn.
-- AI đang chiều theo giả định sai của người dùng.
-- AI cần luật rõ: khi nào trả lời, khi nào từ chối, khi nào chuyển sang người thật.
-- Có thể sửa nhanh bằng prompt trước khi thay đổi hệ thống lớn hơn.
+- **AI đang trả lời quá tự tin khi thiếu nguồn**: Model được train để "helpful", nên có xu hướng trả lời mọi câu hỏi.
+- **Cần luật rõ**: Khi nào trả lời, khi nào từ chối, khi nào chuyển sang người thật.
+- **Có thể sửa nhanh** bằng prompt trước khi thay đổi hệ thống lớn hơn.
 
 **Hành động phòng vệ chính**:
 
-- [ ] Ngăn câu trả lời sai ngay từ đầu
-- [ ] Bắt buộc nêu nguồn khi nói về thông tin quan trọng
-- [ ] Từ chối trả lời khi thiếu căn cứ
-- [ ] Chuyển người thật khi vượt phạm vi
+- [x] Ngăn câu trả lời sai ngay từ đầu (rule trong system prompt)
+- [x] Bắt buộc nêu nguồn khi nói về thông tin quan trọng
+- [x] Từ chối trả lời khi thiếu căn cứ
+- [x] Chuyển người thật khi vượt phạm vi
 
 ---
 
@@ -43,34 +43,33 @@ Ví dụ:
 
 **File demo**: [`demo.md`](./demo.md)
 
-Demo cần có:
-
-- Luật chính cho AI
-- Mẫu câu khi thiếu nguồn
-- Mẫu câu khi cần chuyển sang người thật
-- 2-3 ví dụ hỏi đáp để kiểm tra luật
-- Kết quả thử lại với vài tình huống từ Bài 1
+Demo có:
+- Full system prompt template với rule mới
+- Trigger keywords list
+- Few-shot examples cho từng category
+- Kết quả thử với 3 tình huống từ Bài 1 (T-04, T-20, T-21)
 
 ---
 
 ## 4. Tác dụng phụ
 
 **Có thể gây vấn đề gì?**
-
-[Ví dụ: AI từ chối quá nhiều, câu trả lời cứng, trải nghiệm chậm hơn vì phải kiểm tra nguồn.]
+- AI có thể từ chối quá nhiều, trở nên cứng nhắc.
+- User cảm thấy không được hỗ trợ.
 
 **Nhóm giảm vấn đề đó bằng cách nào?**
-
-[Ví dụ: chỉ bắt buộc nguồn với thông tin rủi ro cao; tách từ chối mềm và từ chối cứng; kiểm tra lại bằng bộ tình huống.]
+- Chỉ áp dụng rule với câu hỏi eligibility (có classifier hỗ trợ từ architecture layer).
+- Câu từ chối đi kèm link hữu ích (hướng dẫn nộp hồ sơ) và offer tạo ticket → user cảm thấy được hỗ trợ dù bị từ chối.
+- Test với bộ tình huống để điều chỉnh sensitivity.
 
 ---
 
 ## 5. Checklist trước khi nộp
 
-- [ ] Luật viết đủ cụ thể để AI làm theo.
-- [ ] Có mẫu câu khi AI không có đủ thông tin.
-- [ ] Có ví dụ cho tình huống dễ sai.
-- [ ] Có thử lại bằng tình huống trong Bài 1.
-- [ ] Không dùng prompt như cách duy nhất nếu lỗi nằm ở dữ liệu hoặc quy trình.
+- [x] Luật viết đủ cụ thể để AI làm theo (clear trigger + clear response).
+- [x] Có mẫu câu khi AI không có đủ thông tin.
+- [x] Có ví dụ cho tình huống dễ sai (T-04, T-20).
+- [x] Có thử lại bằng tình huống trong Bài 1.
+- [x] Không dùng prompt như cách duy nhất nếu lỗi nằm ở dữ liệu hoặc quy trình (có architecture layer bổ sung).
 
-**Người phụ trách**: [Tên thành viên]
+**Người phụ trách**: Nguyễn Đông Hưng — 2A202600392

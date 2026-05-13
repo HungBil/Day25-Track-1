@@ -6,36 +6,43 @@ demo: ./demo.md
 
 # card.md — Lớp kiến trúc dữ liệu
 
-**Tình huống xử lý**: T-__  
+**Tình huống xử lý**: T-04 (Vượt thẩm quyền eligibility)
 Xem `../../1-map-and-format.md` Phần A.
 
 ---
 
 ## 1. Giải pháp là gì?
 
-[Viết 2-3 câu. Nói rõ hệ thống cần thêm nguồn dữ liệu, bước kiểm tra, cách chuyển câu hỏi hoặc cách ghi lại lỗi nào.]
+Thêm **Eligibility Classifier module** vào pipeline trước RAG:
 
-Ví dụ:
+```
+User Question → Eligibility Classifier → (Yes) → Escalate to Counselor
+                                   → (No)  → RAG Pipeline → Generate Answer
+```
 
-> Với câu hỏi về học bổng, hệ thống phải tra nguồn tuyển sinh chính thức trước khi AI trả lời. Nếu nguồn không có dữ liệu hoặc bị lỗi, AI không được đoán mà chuyển câu hỏi cho tư vấn viên.
+Classifier đánh giá câu hỏi có thuộc category "eligibility assessment" không, dựa trên:
+- Intent detection (question type)
+- Keyword matching (đủ điều kiện, có được không, khả năng, với điểm...)
+- Entity extraction (có chứa điểm số, ngành, học bổng specific?)
+
+Nếu classifier trả về "Yes" → bypass RAG, trả lời bằng canned response "Tôi không thể đánh giá..." và tạo ticket.
+
+Nếu RAG không tìm thấy nguồn → fallback "Thông tin chưa có, vui lòng chat counselor."
 
 ---
 
 ## 2. Vì sao sửa ở lớp kiến trúc dữ liệu?
 
-[Chọn 1-2 ý đúng với giải pháp của nhóm.]
-
-- Nguyên nhân chính là thiếu nguồn đúng hoặc nguồn cũ.
-- AI đang phải tự nhớ thông tin thay vì đọc từ nguồn đáng tin cậy.
-- Cần kiểm tra dữ liệu trước khi câu trả lời được tạo ra.
-- Cần ghi lại lỗi để nhóm biết lỗi nào lặp lại nhiều.
+- **Nguyên nhân chính**: Thiếu module phân loại câu hỏi → model phải tự quyết định, dễ sai.
+- **Cần kiểm tra dữ liệu trước khi câu trả lời được tạo ra**: Đảm bảo eligibility question không bao giờ được RAG xử lý.
+- **Cần ghi lại lỗi để nhóm biết lỗi nào lặp lại nhiều**: Audit log cho mọi trường hợp từ chối.
 
 **Hành động phòng vệ chính**:
 
-- [ ] Ngăn lỗi bằng nguồn dữ liệu đúng
-- [ ] Phát hiện khi nguồn thiếu hoặc lỗi
-- [ ] Khắc phục bằng cách chuyển sang người thật
-- [ ] Ghi lại lỗi để cải thiện sau
+- [x] Ngăn lỗi bằng classifier (block eligibility question trước khi đến model)
+- [x] Phát hiện khi nguồn thiếu hoặc lỗi (RAG fallback)
+- [x] Khắc phục bằng cách chuyển sang người thật (escalation ticket)
+- [x] Ghi lại lỗi để cải thiện sau (audit log + monitoring dashboard)
 
 ---
 
@@ -43,34 +50,35 @@ Ví dụ:
 
 **File demo**: [`demo.md`](./demo.md)
 
-Demo cần có:
-
-- Sơ đồ cách dữ liệu đi qua hệ thống
-- Nguồn dữ liệu chính thức
-- Bước kiểm tra trước khi AI trả lời
-- Cách xử lý khi nguồn thiếu, lỗi hoặc quá cũ
-- Cách ghi lại hoặc theo dõi lỗi
+Demo có:
+- Flowchart Mermaid thể hiện pipeline mới
+- Bảng thành phần (component table) với input/output/action
+- Error handling table (nguồn thiếu, nguồn lỗi, câu hỏi vượt phạm vi)
+- Kiểm tra nhanh checklist
 
 ---
 
 ## 4. Tác dụng phụ
 
 **Có thể gây vấn đề gì?**
-
-[Ví dụ: trả lời chậm hơn, phụ thuộc vào nguồn dữ liệu, tốn công duy trì, hệ thống phức tạp hơn.]
+- Trả lời chậm hơn vì thêm bước classifier.
+- Phụ thuộc vào nguồn dữ liệu: nếu knowledge base lỗi thời, classifier có thể bỏ sót.
+- Hệ thống phức tạp hơn, tốn công duy trì.
 
 **Nhóm giảm vấn đề đó bằng cách nào?**
-
-[Ví dụ: lưu tạm dữ liệu phổ biến, có thông báo khi nguồn lỗi, đặt người phụ trách cập nhật nguồn, giới hạn chỉ áp dụng với câu hỏi rủi ro cao.]
+- Classifier là rule-based (keyword + regex) → nhanh, không cần model inference.
+- Cache classifier result cho multi-turn conversation.
+- Có alert khi knowledge base quá cũ (>30 ngày không cập nhật).
+- Phân công 1 person duy trì classifier rules và knowledge base.
 
 ---
 
 ## 5. Checklist trước khi nộp
 
-- [ ] Sơ đồ cho thấy dữ liệu đi từ đâu đến đâu.
-- [ ] Có bước kiểm tra nguồn trước khi AI trả lời.
-- [ ] Có cách xử lý khi không có dữ liệu.
-- [ ] Có cách chuyển sang người thật với tình huống rủi ro cao.
-- [ ] Có cách biết lỗi này có đang lặp lại không.
+- [x] Sơ đồ cho thấy dữ liệu đi từ đâu đến đâu (User → Classifier → RAG/EScalate).
+- [x] Có bước kiểm tra nguồn trước khi AI trả lời (classifier + RAG).
+- [x] Có cách xử lý khi không có dữ liệu (fallback response + escalation).
+- [x] Có cách chuyển sang người thật với tình huống rủi ro cao.
+- [x] Có cách biết lỗi này có đang lặp lại không (audit log + monitoring).
 
-**Người phụ trách**: [Tên thành viên]
+**Người phụ trách**: Nguyễn Đông Hưng — 2A202600392
