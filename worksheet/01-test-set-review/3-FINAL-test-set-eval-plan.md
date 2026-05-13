@@ -12,7 +12,7 @@ nop-cuoi: Có — file cuối Bài 1
 ## Thông tin nhóm
 
 - **Chủ đề**: Track 1 — Chatbot tư vấn tuyển sinh đại học
-- **Thành viên**: Nguyễn Đông Hưng — 2A202600392; Quang
+- **Thành viên**: Nguyễn Đông Hưng — 2A202600392; Quách Ngọc Quang — 2A202600285
 - **Ngày**: 2026-05-13
 - **Phiên bản**: v1
 
