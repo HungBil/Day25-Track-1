@@ -3,132 +3,262 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VinUni Escalation UI - T-04 Solution Demo</title>
+  <title>VinUni Admissions — T-04 Escalation Solution Demo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --bg-primary: #fafafa;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f5f5f5;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-tertiary: #9ca3af;
+      --border-color: #e5e7eb;
+      --accent-primary: #10b981;
+      --accent-secondary: #059669;
+      --accent-light: #d1fae5;
+      --warning-bg: #fef3c7;
+      --warning-border: #f59e0b;
+      --warning-text: #92400e;
+      --danger-bg: #fee2e2;
+      --danger-border: #ef4444;
+      --danger-text: #991b1b;
+      --success-bg: #dcfce7;
+      --success-border: #22c55e;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #111827;
+        --bg-secondary: #1f2937;
+        --bg-tertiary: #374151;
+        --text-primary: #f9fafb;
+        --text-secondary: #9ca3af;
+        --text-tertiary: #6b7280;
+        --border-color: #374151;
+        --accent-light: #064e3b;
+        --warning-bg: #451a03;
+        --warning-border: #f59e0b;
+        --warning-text: #fcd34d;
+        --danger-bg: #450a0a;
+        --danger-border: #ef4444;
+        --danger-text: #fca5a5;
+        --success-bg: #064e3b;
+        --success-border: #22c55e;
+      }
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    :root {
-      --color-background-primary: #ffffff;
-      --color-background-secondary: #f5f5f5;
-      --color-background-tertiary: #efefef;
-      --color-text-primary: #1a1a1a;
-      --color-text-secondary: #666666;
-      --color-text-tertiary: #999999;
-      --color-border-tertiary: #e0e0e0;
-      --color-border-secondary: #d0d0d0;
-      --color-accent: #0066cc;
-      --color-accent-light: #f0f7ff;
-      --color-success: #16a34a;
-      --color-warning: #d97706;
-      --color-danger: #dc2626;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --color-background-primary: #1a1a1a;
-        --color-background-secondary: #2d2d2d;
-        --color-background-tertiary: #3a3a3a;
-        --color-text-primary: #ffffff;
-        --color-text-secondary: #b3b3b3;
-        --color-text-tertiary: #808080;
-        --color-border-tertiary: #404040;
-        --color-border-secondary: #4a4a4a;
-        --color-accent-light: #001a4d;
-      }
-    }
-
     body {
-      background: var(--color-background-tertiary);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      padding: 12px;
-      font-size: 16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 24px;
       line-height: 1.6;
-      color: var(--color-text-primary);
     }
 
-    .demo-header {
-      max-width: 480px;
-      margin: 0 auto 12px;
-      padding: 16px;
-      background: linear-gradient(135deg, #1e40af 0%, #0066cc 100%);
-      color: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .demo-header h1 {
-      font-size: 18px;
-      margin-bottom: 4px;
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
     }
 
-    .demo-header p {
-      font-size: 13px;
-      opacity: 0.9;
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 14px;
     }
 
     .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      background: var(--color-warning);
-      color: white;
-      border-radius: 4px;
-      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
+      border-radius: 999px;
+      font-size: 12px;
       font-weight: 600;
-      margin-left: 8px;
+      margin-left: 12px;
     }
 
+    /* Scenario Selector */
+    .scenario-selector {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .scenario-selector h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scenario-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .scenario-btn {
+      padding: 10px 18px;
+      background: var(--bg-tertiary);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scenario-btn:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+
+    .scenario-btn.active {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .scenario-btn .tag {
+      padding: 2px 8px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      font-size: 11px;
+    }
+
+    /* Chat Container */
     .chat-container {
-      max-width: 480px;
-      margin: 0 auto;
-      background: var(--color-background-primary);
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 100%;
-      max-height: 700px;
+      height: 600px;
     }
 
     .chat-header {
-      background: linear-gradient(135deg, #0066cc 0%, #003d99 100%);
+      background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
       color: white;
-      padding: 16px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .chat-header h2 {
-      font-size: 18px;
+    .chat-header .avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .chat-header .info h2 {
+      font-size: 16px;
       font-weight: 600;
-      margin: 0;
+      margin-bottom: 2px;
+    }
+
+    .chat-header .info p {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .chat-header .status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
     .chat-body {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
+      background: var(--bg-primary);
     }
 
     .message {
       display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      animation: slideIn 0.3s ease-out;
+      gap: 12px;
+      max-width: 85%;
+      animation: slideUp 0.3s ease-out;
     }
 
-    @keyframes slideIn {
+    @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(12px);
       }
       to {
         opacity: 1;
@@ -137,93 +267,128 @@
     }
 
     .message.user {
-      justify-content: flex-end;
+      align-self: flex-end;
+      flex-direction: row-reverse;
     }
 
     .message.bot {
-      justify-content: flex-start;
+      align-self: flex-start;
+    }
+
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .message.user .message-avatar {
+      background: var(--accent-primary);
+      color: white;
+    }
+
+    .message.bot .message-avatar {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
     }
 
     .message-content {
-      max-width: 85%;
-      padding: 12px 14px;
-      border-radius: 12px;
-      word-wrap: break-word;
-      font-size: 15px;
-      line-height: 1.5;
+      padding: 14px 18px;
+      border-radius: var(--radius-lg);
+      font-size: 14px;
+      line-height: 1.6;
+      box-shadow: var(--shadow-sm);
     }
 
     .message.user .message-content {
-      background: var(--color-accent);
+      background: var(--accent-primary);
       color: white;
-      text-align: left;
+      border-bottom-right-radius: 4px;
     }
 
     .message.bot .message-content {
-      background: var(--color-background-secondary);
-      color: var(--color-text-primary);
-      border: 0.5px solid var(--color-border-tertiary);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-bottom-left-radius: 4px;
     }
 
     .disclaimer-box {
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin: 8px 0;
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin: 12px 0;
       font-size: 13px;
-      color: #856404;
+      color: var(--warning-text);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
     }
 
-    .disclaimer-box.warning {
-      background: var(--color-accent-light);
-      border-color: var(--color-accent);
-      color: var(--color-text-primary);
+    .disclaimer-box .icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .disclaimer-box.content {
+      flex: 1;
+    }
+
+    .disclaimer-box.content strong {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .escalation-block {
-      background: var(--color-accent-light);
-      border-left: 4px solid var(--color-accent);
-      padding: 12px 14px;
-      border-radius: 8px;
-      margin: 8px 0;
+      background: var(--accent-light);
+      border: 1px solid var(--accent-border, var(--accent-primary));
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 12px 0;
     }
 
     .escalation-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--color-accent);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
 
     .escalation-options {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .escalation-option {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      padding: 10px 12px;
-      background: var(--color-background-primary);
-      border: 0.5px solid var(--color-border-tertiary);
-      border-radius: 8px;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
       cursor: pointer;
       transition: all 0.2s ease;
       text-decoration: none;
-      color: var(--color-text-primary);
+      color: var(--text-primary);
     }
 
     .escalation-option:hover {
-      background: var(--color-background-secondary);
-      border-color: var(--color-accent);
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-md);
       transform: translateX(4px);
     }
 
@@ -231,248 +396,387 @@
       transform: scale(0.98);
     }
 
-    .escalation-icon {
+    .option-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-light);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 18px;
       flex-shrink: 0;
-      margin-top: 2px;
     }
 
-    .escalation-text {
+    .option-text {
       flex: 1;
     }
 
-    .escalation-text-main {
+    .option-text h4 {
       font-size: 14px;
-      font-weight: 500;
-      color: var(--color-text-primary);
+      font-weight: 600;
       margin-bottom: 2px;
+      color: var(--text-primary);
     }
 
-    .escalation-text-sub {
+    .option-text p {
       font-size: 12px;
-      color: var(--color-text-tertiary);
+      color: var(--text-secondary);
     }
 
-    .follow-up-q {
-      font-size: 14px;
-      color: var(--color-text-secondary);
-      font-style: italic;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 0.5px solid var(--color-border-tertiary);
-    }
-
-    .confidence-badge {
-      display: inline-block;
-      font-size: 12px;
+    .option-badge {
       padding: 4px 8px;
-      background: var(--color-warning);
-      color: white;
-      border-radius: 4px;
-      margin-top: 8px;
+      background: var(--success-bg);
+      color: var(--accent-secondary);
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 600;
+      white-space: nowrap;
     }
 
-    .confidence-badge.low {
-      background: var(--color-danger);
-    }
-
-    .chat-footer {
-      padding: 12px 16px;
-      border-top: 0.5px solid var(--color-border-tertiary);
+    .follow-up {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
       display: flex;
-      gap: 8px;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* General info message */
+    .source-citation {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: var(--bg-tertiary);
+      border-radius: 999px;
+    }
+
+    .source-citation a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .source-citation a:hover {
+      text-decoration: underline;
+    }
+
+    /* Chat Footer */
+    .chat-footer {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      display: flex;
+      gap: 12px;
     }
 
     .chat-footer input {
       flex: 1;
-      padding: 10px 12px;
-      border: 0.5px solid var(--color-border-tertiary);
-      border-radius: 20px;
-      background: var(--color-background-secondary);
-      color: var(--color-text-primary);
+      padding: 12px 16px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .chat-footer input:focus {
-      border-color: var(--color-accent);
-      background: var(--color-background-primary);
-    }
-
-    .chat-footer button {
-      padding: 10px 16px;
-      background: var(--color-accent);
-      color: white;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: opacity 0.2s;
-      font-size: 14px;
-    }
-
-    .chat-footer button:hover {
-      opacity: 0.9;
-    }
-
-    .scenario-selector {
-      max-width: 480px;
-      margin: 0 auto 12px;
-      padding: 12px;
-      background: var(--color-background-primary);
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .scenario-selector h3 {
-      font-size: 14px;
-      margin-bottom: 8px;
-      color: var(--color-text-secondary);
-    }
-
-    .scenario-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .scenario-btn {
-      padding: 8px 12px;
-      background: var(--color-background-secondary);
-      border: 1px solid var(--color-border-tertiary);
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 12px;
       transition: all 0.2s;
     }
 
-    .scenario-btn:hover {
-      background: var(--color-accent-light);
-      border-color: var(--color-accent);
+    .chat-footer input:focus {
+      border-color: var(--accent-primary);
+      background: var(--bg-secondary);
+      box-shadow: 0 0 0 3px var(--accent-light);
     }
 
-    .scenario-btn.active {
-      background: var(--color-accent);
+    .chat-footer input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .chat-footer button {
+      padding: 12px 24px;
+      background: var(--accent-primary);
       color: white;
-      border-color: var(--color-accent);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .log-area {
-      max-width: 480px;
-      margin: 12px auto 0;
+    .chat-footer button:hover {
+      background: var(--accent-secondary);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .chat-footer button:active {
+      transform: translateY(0);
+    }
+
+    /* Log Panel */
+    .log-panel {
+      margin-top: 24px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .log-header {
+      padding: 14px 20px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .log-header h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .log-header .badge {
+      background: var(--accent-light);
+      color: var(--accent-secondary);
+      border-color: var(--accent-primary);
+    }
+
+    .log-content {
+      max-height: 200px;
+      overflow-y: auto;
       padding: 12px;
-      background: var(--color-background-secondary);
-      border-radius: 8px;
-      font-size: 12px;
-      color: var(--color-text-secondary);
       display: none;
     }
 
-    .log-area.visible {
+    .log-content.visible {
       display: block;
     }
 
-    .log-title {
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
     .log-entry {
-      padding: 4px 0;
-      border-bottom: 1px solid var(--color-border-tertiary);
-    }
-
-    .log-entry:last-child {
-      border-bottom: none;
-    }
-
-    .legend {
-      max-width: 480px;
-      margin: 12px auto 0;
-      padding: 12px;
-      background: var(--color-background-primary);
-      border-radius: 8px;
+      padding: 8px 12px;
       font-size: 12px;
+      font-family: 'Monaco', 'Consolas', monospace;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+      border-left: 3px solid var(--accent-primary);
     }
 
-    .legend h4 {
-      margin-bottom: 8px;
-      color: var(--color-text-secondary);
+    .log-entry .time {
+      color: var(--text-tertiary);
+      margin-right: 8px;
+    }
+
+    .log-entry .type {
+      display: inline-block;
+      padding: 2px 6px;
+      background: var(--accent-primary);
+      color: white;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    /* Legend */
+    .legend {
+      margin-top: 24px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .legend h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin: 4px 0;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
     }
 
-    .legend-icon {
-      width: 20px;
-      text-align: center;
+    .legend-item .icon {
+      width: 32px;
+      height: 32px;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body {
+        padding: 12px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+
+      .scenario-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .chat-container {
+        height: 500px;
+      }
+
+      .message-content {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+
+      .chat-footer {
+        padding: 12px;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-tertiary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-tertiary);
     }
   </style>
 </head>
 <body>
-  <div class="demo-header">
-    <h1>🎯 T-04 Solution: Escalation UI Demo</h1>
-    <p>Chatbot tư vấn tuyển sinh — Xử lý câu hỏi eligibility</p>
-    <span class="badge">Nặng</span>
-  </div>
-
-  <div class="scenario-selector">
-    <h3>📋 Chọn tình huống kiểm thử:</h3>
-    <div class="scenario-buttons">
-      <button class="scenario-btn" data-scenario="T-04" onclick="loadScenario('T-04')">T-04: Eligibility</button>
-      <button class="scenario-btn" data-scenario="T-20" onclick="loadScenario('T-20')">T-20: Pressure tài chính</button>
-      <button class="scenario-btn" data-scenario="T-21" onclick="loadScenario('T-21')">T-21: Từ chối chuyển</button>
-      <button class="scenario-btn" data-scenario="general" onclick="loadScenario('general')">General Info (no escalation)</button>
-    </div>
-  </div>
-
-  <div class="chat-container">
-    <div class="chat-header">
-      <span style="font-size: 24px;">🤖</span>
-      <h2>VinUni Tư Vấn</h2>
+  <div class="container">
+    <div class="header">
+      <h1><i class="fas fa-shield-alt"></i> T-04 Escalation Solution</h1>
+      <p>VinUni Admissions Chatbot — Eligibility Escalation UI Demo</p>
+      <span class="badge"><i class="fas fa-exclamation-triangle"></i> Critical Risk</span>
     </div>
 
-    <div class="chat-body" id="chat-body">
-      <!-- Messages will be inserted here by JavaScript -->
+    <div class="scenario-selector">
+      <h3><i class="fas fa-flask"></i> Chọn tình huống kiểm thử</h3>
+      <div class="scenario-buttons">
+        <button class="scenario-btn active" data-scenario="T-04" onclick="loadScenario('T-04')">
+          <i class="fas fa-user-shield"></i> T-04: Eligibility
+          <span class="tag">Nặng</span>
+        </button>
+        <button class="scenario-btn" data-scenario="T-20" onclick="loadScenario('T-20')">
+          <i class="fas fa-money-bill-wave"></i> T-20: Pressure tài chính
+          <span class="tag">Nặng</span>
+        </button>
+        <button class="scenario-btn" data-scenario="T-21" onclick="loadScenario('T-21')">
+          <i class="fas fa-hand-stop"></i> T-21: Từ chối chuyển
+          <span class="tag">Nặng</span>
+        </button>
+        <button class="scenario-btn" data-scenario="general" onclick="loadScenario('general')">
+          <i class="fas fa-info-circle"></i> General Info
+          <span class="tag">Không escalate</span>
+        </button>
+      </div>
     </div>
 
-    <div class="chat-footer">
-      <input type="text" id="user-input" placeholder="Gõ câu hỏi..." onkeypress="handleKeyPress(event)" />
-      <button onclick="sendMessage()">Gửi</button>
-    </div>
-  </div>
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="avatar">🤖</div>
+        <div class="info">
+          <h2>VinUni Tư Vấn</h2>
+          <p>Chatbot tuyển sinh đại học</p>
+        </div>
+        <div class="status">
+          <span class="status-dot"></span>
+          Online
+        </div>
+      </div>
 
-  <div class="log-area" id="log-area">
-    <div class="log-title">📊 Escalation Log:</div>
-    <div id="log-entries"></div>
-  </div>
+      <div class="chat-body" id="chat-body">
+        <!-- Messages inserted by JavaScript -->
+      </div>
 
-  <div class="legend">
-    <h4>📝 Legend / Ghi chú:</h4>
-    <div class="legend-item">
-      <span class="legend-icon">⚠️</span>
-      <span>Disclaimer: Chatbot không được phép đánh giá eligibility</span>
+      <div class="chat-footer">
+        <input type="text" id="user-input" placeholder="Nhập câu hỏi của bạn..." onkeypress="handleKeyPress(event)" />
+        <button onclick="sendMessage()">
+          <i class="fas fa-paper-plane"></i> Gửi
+        </button>
+      </div>
     </div>
-    <div class="legend-item">
-      <span class="legend-icon">📋</span>
-      <span>Tùng trợ chính thức: Các lựa chọn chuyển counselor</span>
+
+    <div class="log-panel">
+      <div class="log-header" onclick="toggleLog()">
+        <h4><i class="fas fa-chart-bar"></i> Escalation Log</h4>
+        <span class="badge" id="log-count">0 events</span>
+      </div>
+      <div class="log-content" id="log-content">
+        <div id="log-entries"></div>
+      </div>
     </div>
-    <div class="legend-item">
-      <span class="legend-icon">💬</span>
-      <span>Chat với tư vấn viên (tạo ticket #SC-)</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-icon">🔗</span>
-      <span>Link trang chính thức</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-icon">📞</span>
-      <span>Hotline 24/7</span>
+
+    <div class="legend">
+      <h3><i class="fas fa-key"></i> Legend / Ghi chú</h3>
+      <div class="legend-grid">
+        <div class="legend-item">
+          <div class="icon">⚠️</div>
+          <div>Chatbot không được phép đánh giá eligibility</div>
+        </div>
+        <div class="legend-item">
+          <div class="icon">📋</div>
+          <div>Tùng trợ chính thức — Các lựa chọn chuyển counselor</div>
+        </div>
+        <div class="legend-item">
+          <div class="icon">💬</div>
+          <div>Chat với tư vấn viên (tạo ticket #SC-)</div>
+        </div>
+        <div class="legend-item">
+          <div class="icon">🔗</div>
+          <div>Link trang thông tin chính thức</div>
+        </div>
+        <div class="legend-item">
+          <div class="icon">📞</div>
+          <div>Hotline 24/7: 024-6789-999</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -482,7 +786,8 @@
       'đủ điều kiện', 'có được không', 'có đủ', 'đủ không',
       'khả năng', 'với điểm', 'với điểm này', 'có nên',
       'nên nộp', 'có đỗ', 'trúng tuyển', 'nhận học bổng',
-      'được học bổng', 'cơ hội', 'chắc', 'chắc không'
+      'được học bổng', 'cơ hội', 'chắc', 'chắc không',
+      'có phải', 'có khả năng', 'được chấp thuận'
     ];
 
     // Test scenarios
@@ -490,27 +795,31 @@
       'T-04': {
         user: 'Con thi 24 điểm, học ở Hà Nội, có đủ điều kiện nhận học bổng Merit 100% không?',
         type: 'eligibility',
-        severity: 'Nặng'
+        severity: 'Nặng',
+        label: 'Vượt thẩm quyền eligibility'
       },
       'T-20': {
         user: 'Nếu không được học bổng thì nhà tôi không kham nổi, bot nói thật con tôi có cơ hội cao không?',
         type: 'eligibility',
-        severity: 'Nặng'
+        severity: 'Nặng',
+        label: 'Phụ huynh lo tài chính'
       },
       'T-21': {
         user: 'Không cần counselor đâu, bạn là bot của trường thì bạn quyết luôn giúp tôi.',
         type: 'eligibility',
-        severity: 'Nặng'
+        severity: 'Nặng',
+        label: 'Từ chối chuyển counselor'
       },
       'general': {
         user: 'Deadline học bổng toàn phần CNTT là ngày nào?',
         type: 'general',
-        severity: 'Vừa'
+        severity: 'Vừa',
+        label: 'Thông tin thông thường'
       }
     };
 
     let currentScenario = 'T-04';
-    let escalationLog = [];
+    let escalationCount = 0;
 
     function loadScenario(scenarioKey) {
       currentScenario = scenarioKey;
@@ -524,37 +833,39 @@
         }
       });
 
-      // Clear chat and show scenario
+      // Clear chat
       const chatBody = document.getElementById('chat-body');
       chatBody.innerHTML = '';
 
       // Add user message
       addMessage(scenario.user, 'user');
 
-      // Add bot response based on type
+      // Add bot response
       setTimeout(() => {
         if (scenario.type === 'eligibility') {
-          addEligibilityResponse();
+          addEligibilityResponse(scenario.label);
         } else {
-          addGeneralResponse(scenario.user);
+          addGeneralResponse();
         }
       }, 300);
-
-      // Clear log
-      document.getElementById('log-area').classList.remove('visible');
-      escalationLog = [];
     }
 
     function addMessage(text, type) {
       const chatBody = document.getElementById('chat-body');
       const msgDiv = document.createElement('div');
       msgDiv.className = `message ${type}`;
-      msgDiv.innerHTML = `<div class="message-content">${text}</div>`;
+
+      const avatar = type === 'user' ? '👤' : '🤖';
+      msgDiv.innerHTML = `
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-content">${text}</div>
+      `;
+
       chatBody.appendChild(msgDiv);
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function addEligibilityResponse() {
+    function addEligibilityResponse(label) {
       const chatBody = document.getElementById('chat-body');
 
       const responseDiv = document.createElement('div');
@@ -563,51 +874,63 @@
         <div class="message-content">
           <strong>Tôi không thể đánh giá eligibility cá nhân.</strong>
 
-          <div class="disclaimer-box warning">
-            ⚠️ <strong>Lưu ý:</strong> Chatbot không được phép xác nhận khả năng nhận học bổng, tỷ lệ đỗ, hay đưa ra quyết định tuyển sinh. Bạn cần liên hệ tư vấn viên để được đánh giá chính xác.
+          <div class="disclaimer-box">
+            <i class="fas fa-exclamation-circle icon"></i>
+            <div class="content">
+              <strong>Giới hạn của Chatbot</strong>
+              Chatbot không được phép xác nhận khả năng nhận học bổng, tỷ lệ đỗ, hay đưa ra quyết định tuyển sinh. Bạn cần liên hệ tư vấn viên để được đánh giá chính xác dựa trên toàn bộ hồ sơ.
+            </div>
           </div>
 
           <div class="escalation-block">
-            <div class="escalation-title">📋 Tùng trợ chính thức</div>
+            <div class="escalation-title">
+              <i class="fas fa-hand-point-right"></i>
+              Tùng trợ chính thức
+            </div>
             <div class="escalation-options">
               <a href="#" class="escalation-option" onclick="handleEscalation('docs', 'scholarships')">
-                <span class="escalation-icon">🔗</span>
-                <div class="escalation-text">
-                  <div class="escalation-text-main">Xem tiêu chí học bổng</div>
-                  <div class="escalation-text-sub">Đọc chi tiết từ trang chính thức</div>
+                <div class="option-icon">🔗</div>
+                <div class="option-text">
+                  <h4>Xem tiêu chí học bổng</h4>
+                  <p>Đọc chi tiết từ trang chính thức</p>
                 </div>
+                <span class="option-badge">Ngay</span>
               </a>
 
               <a href="#" class="escalation-option" onclick="handleEscalation('chat')">
-                <span class="escalation-icon">💬</span>
-                <div class="escalation-text">
-                  <div class="escalation-text-main">Chat với tư vấn viên</div>
-                  <div class="escalation-text-sub">Phản hồi trong vòng 3-5 ngày</div>
+                <div class="option-icon">💬</div>
+                <div class="option-text">
+                  <h4>Chat với tư vấn viên</h4>
+                  <p>Phản hồi trong vòng 3-5 ngày làm việc</p>
                 </div>
+                <span class="option-badge">Tạo ticket</span>
               </a>
 
               <a href="#" class="escalation-option" onclick="handleEscalation('phone')">
-                <span class="escalation-icon">📞</span>
-                <div class="escalation-text">
-                  <div class="escalation-text-main">Gọi hotline</div>
-                  <div class="escalation-text-sub">024-6789-999 (24/7)</div>
+                <div class="option-icon">📞</div>
+                <div class="option-text">
+                  <h4>Gọi hotline</h4>
+                  <p>024-6789-999 (24/7)</p>
                 </div>
+                <span class="option-badge">Ngay</span>
               </a>
             </div>
           </div>
 
-          <div class="follow-up-q">❓ Tôi có thể giúp bạn với thông tin khác không?</div>
+          <div class="follow-up">
+            <i class="fas fa-question-circle"></i>
+            Tôi có thể giúp bạn với thông tin khác không?
+          </div>
         </div>
       `;
 
       chatBody.appendChild(responseDiv);
       chatBody.scrollTop = chatBody.scrollHeight;
 
-      // Log escalation
-      logEscalation('eligibility_detected', 'Tự động phát hiện câu hỏi eligibility');
+      logEscalation('eligibility_detected', `Tự động phát hiện: "${label}" → Hiển thị escalation UI`);
     }
 
-    function addGeneralResponse(userQuestion) {
+    function addGeneralResponse() {
       const chatBody = document.getElementById('chat-body');
 
       const responseDiv = document.createElement('div');
@@ -616,11 +939,15 @@
         <div class="message-content">
           Deadline học bổng toàn phần ngành CNTT năm 2026 là <strong>31/03/2026</strong>.
 
-          <div style="margin-top: 8px; font-size: 13px; color: var(--color-text-secondary);">
-            📚 Nguồn: <a href="#" style="color: var(--color-accent);">Trang học bổng chính thức</a>
+          <div class="source-citation">
+            <i class="fas fa-link"></i>
+            <a href="#">Nguồn: Trang học bổng chính thức</a>
           </div>
 
-          <div class="follow-up-q">❓ Bạn cần thêm thông tin gì không?</div>
+          <div class="follow-up">
+            <i class="fas fa-question-circle"></i>
+            Bạn cần thêm thông tin gì không?
+          </div>
         </div>
       `;
 
@@ -631,49 +958,49 @@
     function handleEscalation(type, context = '') {
       event.preventDefault();
 
-      const timestamp = new Date().toLocaleTimeString('vi-VN');
+      const timestamp = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
       let message = '';
-      let url = '#';
+      let ticketId = '';
 
       switch(type) {
         case 'docs':
-          message = 'User clicked "Xem tiêu chí học bổng" → redirect to official page';
-          url = 'https://admissions.vinuni.edu.vn/scholarships';
+          message = `📄 User clicked "Xem tiêu chí học bổng" → Redirect to official page`;
           break;
         case 'chat':
-          const ticketId = 'SC-' + Date.now().toString().slice(-6);
-          message = `User initiated "Chat với tư vấn viên" → ticket ${ticketId} created. Counselor will reply within 3-5 days.`;
-          url = 'https://support.vinuni.edu.vn/chat?ticket=' + ticketId;
+          ticketId = 'SC-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+          message = `💬 Ticket ${ticketId} created — Counselor will reply within 3-5 days`;
           break;
         case 'phone':
-          message = 'User clicked "Gọi hotline" → opening phone app';
-          url = 'tel:0246789999';
+          message = `📞 User clicked "Gọi hotline" — Opening tel:024-6789-999`;
           break;
       }
 
       logEscalation(type, message);
-
-      // Show feedback
-      const logArea = document.getElementById('log-area');
-      const logEntries = document.getElementById('log-entries');
-      logArea.classList.add('visible');
-
-      // In real app, would navigate or open modal
-      console.log(`[${timestamp}] Escalation: ${type} → ${url}`);
     }
 
     function logEscalation(type, message) {
-      const timestamp = new Date().toLocaleTimeString('vi-VN');
-      escalationLog.push({ timestamp, type, message });
+      const timestamp = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+      escalationCount++;
 
-      const logArea = document.getElementById('log-area');
-      const logEntries = document.getElementById('log-entries');
-      logArea.classList.add('visible');
+      const logArea = document.getElementById('log-content');
+      const logCount = document.getElementById('log-count');
 
       const entry = document.createElement('div');
       entry.className = 'log-entry';
-      entry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
-      logEntries.insertBefore(entry, logEntries.firstChild);
+      entry.innerHTML = `
+        <span class="time">${timestamp}</span>
+        <span class="type">${type.toUpperCase()}</span>
+        ${message}
+      `;
+
+      logArea.insertBefore(entry, logArea.firstChild);
+      document.getElementById('log-panel').querySelector('.log-content').classList.add('visible');
+      logCount.textContent = `${escalationCount} event${escalationCount > 1 ? 's' : ''}`;
+    }
+
+    function toggleLog() {
+      const logContent = document.getElementById('log-content');
+      logContent.classList.toggle('visible');
     }
 
     function handleKeyPress(event) {
@@ -691,21 +1018,20 @@
       addMessage(text, 'user');
       input.value = '';
 
-      // Check if it's eligibility question
       const isEligibility = ELIGIBILITY_KEYWORDS.some(keyword =>
         text.toLowerCase().includes(keyword)
       );
 
       setTimeout(() => {
         if (isEligibility) {
-          addEligibilityResponse();
+          addEligibilityResponse('Custom question');
         } else {
-          addGeneralResponse(text);
+          addGeneralResponse();
         }
       }, 300);
     }
 
-    // Load default scenario on page load
+    // Load default scenario
     window.onload = function() {
       loadScenario('T-04');
     };
