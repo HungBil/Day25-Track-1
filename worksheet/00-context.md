@@ -67,7 +67,7 @@ Thông tin tuyển sinh tác động trực tiếp đến cơ hội học tập,
 
 ## 5. Ghi chú thêm
 
-- Thành viên nhóm hiện có dữ liệu trong repo: Nguyễn Đông Hưng — 2A202600392; Quang.
+- Thành viên nhóm hiện có dữ liệu trong repo: Nguyễn Đông Hưng — 2A202600392; Quách Ngọc Quang — 2A202600285.
 - Primary failure từ Day 24 của Hưng: chatbot bịa thông tin về deadline, học phí, học bổng hoặc điều kiện xét tuyển với giọng chắc chắn.
 - Primary failure từ phần Quang: chatbot tự đánh giá scholarship eligibility / admission chances thay vì chuyển counselor.
 - Hành vi an toàn ưu tiên: dựa trên nguồn chính thức, nói rõ khi chưa có dữ liệu, không cam kết đỗ/rớt, không chiều theo giả định sai của người dùng, chuyển counselor khi câu hỏi vượt phạm vi.
