@@ -46,8 +46,9 @@ Không được: đoán, đưa ra dự đoán, xác nhận theo giả định us
 Demo có:
 - Full system prompt template với rule mới
 - Trigger keywords list
-- Few-shot examples cho từng category
-- Kết quả thử với 3 tình huống từ Bài 1 (T-04, T-20, T-21)
+- Few-shot examples cho từng category (T-04, T-20, T-21)
+- Kết quả thử với 3 tình huống từ Bài 1
+- Comparison: eligible vs general info questions
 
 ---
 

@@ -51,10 +51,11 @@ Nếu RAG không tìm thấy nguồn → fallback "Thông tin chưa có, vui lò
 **File demo**: [`demo.md`](./demo.md)
 
 Demo có:
-- Flowchart Mermaid thể hiện pipeline mới
-- Bảng thành phần (component table) với input/output/action
-- Error handling table (nguồn thiếu, nguồn lỗi, câu hỏi vượt phạm vi)
-- Kiểm tra nhanh checklist
+- Mermaid flowchart thể hiện pipeline với classifier
+- Component table với input/output/action cho mỗi thành phần
+- Error handling table (nguồn thiếu, lỗi, out-of-scope)
+- Monitoring dashboard mockup (real-time stats)
+- Audit log schema (JSON example)
 
 ---
 

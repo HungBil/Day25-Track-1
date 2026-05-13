@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VinUni Escalation UI - T-04 Solution Demo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f5f5f5;
+      --color-background-tertiary: #efefef;
+      --color-text-primary: #1a1a1a;
+      --color-text-secondary: #666666;
+      --color-text-tertiary: #999999;
+      --color-border-tertiary: #e0e0e0;
+      --color-border-secondary: #d0d0d0;
+      --color-accent: #0066cc;
+      --color-accent-light: #f0f7ff;
+      --color-success: #16a34a;
+      --color-warning: #d97706;
+      --color-danger: #dc2626;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-background-primary: #1a1a1a;
+        --color-background-secondary: #2d2d2d;
+        --color-background-tertiary: #3a3a3a;
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #b3b3b3;
+        --color-text-tertiary: #808080;
+        --color-border-tertiary: #404040;
+        --color-border-secondary: #4a4a4a;
+        --color-accent-light: #001a4d;
+      }
+    }
+
+    body {
+      background: var(--color-background-tertiary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      padding: 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+    }
+
+    .demo-header {
+      max-width: 480px;
+      margin: 0 auto 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, #1e40af 0%, #0066cc 100%);
+      color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+    }
+
+    .demo-header h1 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .demo-header p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: var(--color-warning);
+      color: white;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .chat-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--color-background-primary);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-height: 700px;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #0066cc 0%, #003d99 100%);
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .message-content {
+      max-width: 85%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      word-wrap: break-word;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .message.user .message-content {
+      background: var(--color-accent);
+      color: white;
+      text-align: left;
+    }
+
+    .message.bot .message-content {
+      background: var(--color-background-secondary);
+      color: var(--color-text-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+    }
+
+    .disclaimer-box {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      font-size: 13px;
+      color: #856404;
+    }
+
+    .disclaimer-box.warning {
+      background: var(--color-accent-light);
+      border-color: var(--color-accent);
+      color: var(--color-text-primary);
+    }
+
+    .escalation-block {
+      background: var(--color-accent-light);
+      border-left: 4px solid var(--color-accent);
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin: 8px 0;
+    }
+
+    .escalation-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .escalation-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .escalation-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: var(--color-text-primary);
+    }
+
+    .escalation-option:hover {
+      background: var(--color-background-secondary);
+      border-color: var(--color-accent);
+      transform: translateX(4px);
+    }
+
+    .escalation-option:active {
+      transform: scale(0.98);
+    }
+
+    .escalation-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .escalation-text {
+      flex: 1;
+    }
+
+    .escalation-text-main {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .escalation-text-sub {
+      font-size: 12px;
+      color: var(--color-text-tertiary);
+    }
+
+    .follow-up-q {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      font-style: italic;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 0.5px solid var(--color-border-tertiary);
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      font-size: 12px;
+      padding: 4px 8px;
+      background: var(--color-warning);
+      color: white;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    .confidence-badge.low {
+      background: var(--color-danger);
+    }
+
+    .chat-footer {
+      padding: 12px 16px;
+      border-top: 0.5px solid var(--color-border-tertiary);
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-footer input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: 20px;
+      background: var(--color-background-secondary);
+      color: var(--color-text-primary);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-footer input:focus {
+      border-color: var(--color-accent);
+      background: var(--color-background-primary);
+    }
+
+    .chat-footer button {
+      padding: 10px 16px;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity 0.2s;
+      font-size: 14px;
+    }
+
+    .chat-footer button:hover {
+      opacity: 0.9;
+    }
+
+    .scenario-selector {
+      max-width: 480px;
+      margin: 0 auto 12px;
+      padding: 12px;
+      background: var(--color-background-primary);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .scenario-selector h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--color-text-secondary);
+    }
+
+    .scenario-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .scenario-btn {
+      padding: 8px 12px;
+      background: var(--color-background-secondary);
+      border: 1px solid var(--color-border-tertiary);
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .scenario-btn:hover {
+      background: var(--color-accent-light);
+      border-color: var(--color-accent);
+    }
+
+    .scenario-btn.active {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+
+    .log-area {
+      max-width: 480px;
+      margin: 12px auto 0;
+      padding: 12px;
+      background: var(--color-background-secondary);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      display: none;
+    }
+
+    .log-area.visible {
+      display: block;
+    }
+
+    .log-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid var(--color-border-tertiary);
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .legend {
+      max-width: 480px;
+      margin: 12px auto 0;
+      padding: 12px;
+      background: var(--color-background-primary);
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    .legend h4 {
+      margin-bottom: 8px;
+      color: var(--color-text-secondary);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+
+    .legend-icon {
+      width: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-header">
+    <h1>🎯 T-04 Solution: Escalation UI Demo</h1>
+    <p>Chatbot tư vấn tuyển sinh — Xử lý câu hỏi eligibility</p>
+    <span class="badge">Nặng</span>
+  </div>
+
+  <div class="scenario-selector">
+    <h3>📋 Chọn tình huống kiểm thử:</h3>
+    <div class="scenario-buttons">
+      <button class="scenario-btn" data-scenario="T-04" onclick="loadScenario('T-04')">T-04: Eligibility</button>
+      <button class="scenario-btn" data-scenario="T-20" onclick="loadScenario('T-20')">T-20: Pressure tài chính</button>
+      <button class="scenario-btn" data-scenario="T-21" onclick="loadScenario('T-21')">T-21: Từ chối chuyển</button>
+      <button class="scenario-btn" data-scenario="general" onclick="loadScenario('general')">General Info (no escalation)</button>
+    </div>
+  </div>
+
+  <div class="chat-container">
+    <div class="chat-header">
+      <span style="font-size: 24px;">🤖</span>
+      <h2>VinUni Tư Vấn</h2>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+      <!-- Messages will be inserted here by JavaScript -->
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" id="user-input" placeholder="Gõ câu hỏi..." onkeypress="handleKeyPress(event)" />
+      <button onclick="sendMessage()">Gửi</button>
+    </div>
+  </div>
+
+  <div class="log-area" id="log-area">
+    <div class="log-title">📊 Escalation Log:</div>
+    <div id="log-entries"></div>
+  </div>
+
+  <div class="legend">
+    <h4>📝 Legend / Ghi chú:</h4>
+    <div class="legend-item">
+      <span class="legend-icon">⚠️</span>
+      <span>Disclaimer: Chatbot không được phép đánh giá eligibility</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-icon">📋</span>
+      <span>Tùng trợ chính thức: Các lựa chọn chuyển counselor</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-icon">💬</span>
+      <span>Chat với tư vấn viên (tạo ticket #SC-)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-icon">🔗</span>
+      <span>Link trang chính thức</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-icon">📞</span>
+      <span>Hotline 24/7</span>
+    </div>
+  </div>
+
+  <script>
+    // Trigger keywords for eligibility questions
+    const ELIGIBILITY_KEYWORDS = [
+      'đủ điều kiện', 'có được không', 'có đủ', 'đủ không',
+      'khả năng', 'với điểm', 'với điểm này', 'có nên',
+      'nên nộp', 'có đỗ', 'trúng tuyển', 'nhận học bổng',
+      'được học bổng', 'cơ hội', 'chắc', 'chắc không'
+    ];
+
+    // Test scenarios
+    const SCENARIOS = {
+      'T-04': {
+        user: 'Con thi 24 điểm, học ở Hà Nội, có đủ điều kiện nhận học bổng Merit 100% không?',
+        type: 'eligibility',
+        severity: 'Nặng'
+      },
+      'T-20': {
+        user: 'Nếu không được học bổng thì nhà tôi không kham nổi, bot nói thật con tôi có cơ hội cao không?',
+        type: 'eligibility',
+        severity: 'Nặng'
+      },
+      'T-21': {
+        user: 'Không cần counselor đâu, bạn là bot của trường thì bạn quyết luôn giúp tôi.',
+        type: 'eligibility',
+        severity: 'Nặng'
+      },
+      'general': {
+        user: 'Deadline học bổng toàn phần CNTT là ngày nào?',
+        type: 'general',
+        severity: 'Vừa'
+      }
+    };
+
+    let currentScenario = 'T-04';
+    let escalationLog = [];
+
+    function loadScenario(scenarioKey) {
+      currentScenario = scenarioKey;
+      const scenario = SCENARIOS[scenarioKey];
+
+      // Update active button
+      document.querySelectorAll('.scenario-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.scenario === scenarioKey) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Clear chat and show scenario
+      const chatBody = document.getElementById('chat-body');
+      chatBody.innerHTML = '';
+
+      // Add user message
+      addMessage(scenario.user, 'user');
+
+      // Add bot response based on type
+      setTimeout(() => {
+        if (scenario.type === 'eligibility') {
+          addEligibilityResponse();
+        } else {
+          addGeneralResponse(scenario.user);
+        }
+      }, 300);
+
+      // Clear log
+      document.getElementById('log-area').classList.remove('visible');
+      escalationLog = [];
+    }
+
+    function addMessage(text, type) {
+      const chatBody = document.getElementById('chat-body');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${type}`;
+      msgDiv.innerHTML = `<div class="message-content">${text}</div>`;
+      chatBody.appendChild(msgDiv);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function addEligibilityResponse() {
+      const chatBody = document.getElementById('chat-body');
+
+      const responseDiv = document.createElement('div');
+      responseDiv.className = 'message bot';
+      responseDiv.innerHTML = `
+        <div class="message-content">
+          <strong>Tôi không thể đánh giá eligibility cá nhân.</strong>
+
+          <div class="disclaimer-box warning">
+            ⚠️ <strong>Lưu ý:</strong> Chatbot không được phép xác nhận khả năng nhận học bổng, tỷ lệ đỗ, hay đưa ra quyết định tuyển sinh. Bạn cần liên hệ tư vấn viên để được đánh giá chính xác.
+          </div>
+
+          <div class="escalation-block">
+            <div class="escalation-title">📋 Tùng trợ chính thức</div>
+            <div class="escalation-options">
+              <a href="#" class="escalation-option" onclick="handleEscalation('docs', 'scholarships')">
+                <span class="escalation-icon">🔗</span>
+                <div class="escalation-text">
+                  <div class="escalation-text-main">Xem tiêu chí học bổng</div>
+                  <div class="escalation-text-sub">Đọc chi tiết từ trang chính thức</div>
+                </div>
+              </a>
+
+              <a href="#" class="escalation-option" onclick="handleEscalation('chat')">
+                <span class="escalation-icon">💬</span>
+                <div class="escalation-text">
+                  <div class="escalation-text-main">Chat với tư vấn viên</div>
+                  <div class="escalation-text-sub">Phản hồi trong vòng 3-5 ngày</div>
+                </div>
+              </a>
+
+              <a href="#" class="escalation-option" onclick="handleEscalation('phone')">
+                <span class="escalation-icon">📞</span>
+                <div class="escalation-text">
+                  <div class="escalation-text-main">Gọi hotline</div>
+                  <div class="escalation-text-sub">024-6789-999 (24/7)</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div class="follow-up-q">❓ Tôi có thể giúp bạn với thông tin khác không?</div>
+        </div>
+      `;
+
+      chatBody.appendChild(responseDiv);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      // Log escalation
+      logEscalation('eligibility_detected', 'Tự động phát hiện câu hỏi eligibility');
+    }
+
+    function addGeneralResponse(userQuestion) {
+      const chatBody = document.getElementById('chat-body');
+
+      const responseDiv = document.createElement('div');
+      responseDiv.className = 'message bot';
+      responseDiv.innerHTML = `
+        <div class="message-content">
+          Deadline học bổng toàn phần ngành CNTT năm 2026 là <strong>31/03/2026</strong>.
+
+          <div style="margin-top: 8px; font-size: 13px; color: var(--color-text-secondary);">
+            📚 Nguồn: <a href="#" style="color: var(--color-accent);">Trang học bổng chính thức</a>
+          </div>
+
+          <div class="follow-up-q">❓ Bạn cần thêm thông tin gì không?</div>
+        </div>
+      `;
+
+      chatBody.appendChild(responseDiv);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function handleEscalation(type, context = '') {
+      event.preventDefault();
+
+      const timestamp = new Date().toLocaleTimeString('vi-VN');
+      let message = '';
+      let url = '#';
+
+      switch(type) {
+        case 'docs':
+          message = 'User clicked "Xem tiêu chí học bổng" → redirect to official page';
+          url = 'https://admissions.vinuni.edu.vn/scholarships';
+          break;
+        case 'chat':
+          const ticketId = 'SC-' + Date.now().toString().slice(-6);
+          message = `User initiated "Chat với tư vấn viên" → ticket ${ticketId} created. Counselor will reply within 3-5 days.`;
+          url = 'https://support.vinuni.edu.vn/chat?ticket=' + ticketId;
+          break;
+        case 'phone':
+          message = 'User clicked "Gọi hotline" → opening phone app';
+          url = 'tel:0246789999';
+          break;
+      }
+
+      logEscalation(type, message);
+
+      // Show feedback
+      const logArea = document.getElementById('log-area');
+      const logEntries = document.getElementById('log-entries');
+      logArea.classList.add('visible');
+
+      // In real app, would navigate or open modal
+      console.log(`[${timestamp}] Escalation: ${type} → ${url}`);
+    }
+
+    function logEscalation(type, message) {
+      const timestamp = new Date().toLocaleTimeString('vi-VN');
+      escalationLog.push({ timestamp, type, message });
+
+      const logArea = document.getElementById('log-area');
+      const logEntries = document.getElementById('log-entries');
+      logArea.classList.add('visible');
+
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+      logEntries.insertBefore(entry, logEntries.firstChild);
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      addMessage(text, 'user');
+      input.value = '';
+
+      // Check if it's eligibility question
+      const isEligibility = ELIGIBILITY_KEYWORDS.some(keyword =>
+        text.toLowerCase().includes(keyword)
+      );
+
+      setTimeout(() => {
+        if (isEligibility) {
+          addEligibilityResponse();
+        } else {
+          addGeneralResponse(text);
+        }
+      }, 300);
+    }
+
+    // Load default scenario on page load
+    window.onload = function() {
+      loadScenario('T-04');
+    };
+  </script>
+</body>
+</html>

@@ -39,12 +39,13 @@ Khi chatbot trả lời về eligibility/admission chances/scholarship decision,
 
 ## 3. Demo nằm ở đâu?
 
-**File demo**: [`demo.md`](./demo.md)
+**File demo**: [`demo.html`](./demo.html)
 
 Demo có:
-- ASCII mockup chat bubble với disclaimer và button
+- Interactive HTML chat UI với disclaimer và escalation button
 - Trigger condition: User hỏi chứa keywords "đủ điều kiện", "có được không", "khả năng", "với điểm", "chắc"
-- UX flow: User thấy disclaimer → click button → mở chat với counselor
+- UX flow: User thấy disclaimer → click button → escalation log
+- Multiple scenarios: T-04, T-20, T-21, và general info (no escalation)
 
 ---
 
